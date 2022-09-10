@@ -1,5 +1,5 @@
 export let boardArray = [];
-let GRID_NUMBER = 10;
+export let GRID_NUMBER = 20;
 
 
 

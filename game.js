@@ -12,7 +12,7 @@ generateNewBlock(board, boardArray);
 
 
 let lastRenderTime = 0;
-let GAME_SPEED = 0.5;
+let GAME_SPEED = 0.2;
 
 function main(currentTime){
     window.requestAnimationFrame(main);
