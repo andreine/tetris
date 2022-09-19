@@ -6,9 +6,9 @@ let currentXPivot;
 let currentYPivot;
 
 let IBlock = [[{x: -1, y: 0}, {x: 0, y: 0}, { x: 1, y: 0}, {x: 2, y: 0}], [{ x: 0, y: -2}, {x: 0, y: -1 }, { x: 0, y: 0}, {x: 0, y: 1 }]];
-let IPivot = {x: 2, y: 5};
+let IPivot = {x: 2, y: 10};
 let TBlock = [[{x: -1, y: 0}, {x: 0, y: 0}, { x: 0, y: -1}, {x: 0, y: 1}], [{ x: -1, y: 0}, {x: -1, y: -1 }, { x: 0, y: -1}, {x: -2, y: -1 }]];
-let TPivot = {x: 2, y: 5};
+let TPivot = {x: 2, y: 10};
 
 
 let blocksType = [IBlock, TBlock]
@@ -65,7 +65,6 @@ function stopTheBlock(elements, boardArray){
         element.classList.remove("moving-block")
         element.classList.add("still-block")
         boardArray[element.style.gridRowStart - 1][element.style.gridColumnStart - 1] = 1;
-
     })
 }
 
@@ -127,29 +126,43 @@ function rowCompleted(){
         if(rowComp){
             completedRowNumber = i;
             isRowCompleted = true;
-            console.log(boardArray[i])
-            boardArray[i] = boardArray[i].map(x => {
-                x = 0;
-            })
+
         }
     }
     if(isRowCompleted){
+        console.log(boardArray)
+        console.log(boardArray[completedRowNumber])
+        boardArray[completedRowNumber] = boardArray[completedRowNumber].map(x => {
+            return 0;
+        })
+        for(let i = completedRowNumber - 1; i >= 0; i--){
+            for(let j = boardArray.length - 1; j >= 0; j--){
+                if (boardArray[i][j] === 1){
+                    boardArray[i][j] = 0 
+                    boardArray[i + 1][j] = 1;
+                }
+            }
+        }
+
+        console.log(boardArray[completedRowNumber])
         stillRows.forEach(x => {
             if (x.style.gridRowStart - 1 === completedRowNumber){
                 x.remove();
             }
         })
         stillRows.forEach(x => {
-            console.log(x)
-            x.style.gridRowStart++;
+            if (x.style.gridRowStart - 2 < completedRowNumber){
+                console.log(x)
+                x.style.gridRowStart++;
+            }
         })
+        console.log(boardArray)
     }
-   
 }
 
 
 export function moveBlock(board, boardArray){
-    rowCompleted()
+    rowCompleted();
     let blockDirection = {
         down: true,
         left: false,
